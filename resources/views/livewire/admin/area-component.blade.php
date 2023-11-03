@@ -162,7 +162,7 @@
                             d="M5 19h14a2 2 0 0 0 1.84 -2.75l-7.1 -12.25a2 2 0 0 0 -3.5 0l-7.1 12.25a2 2 0 0 0 1.75 2.75" />
                     </svg>
                     <h3>Xác nhận xóa?</h3>
-                    <div class="text-secondary">Bạn có chắc muốn xóa vĩnh viễn nhóm hàng hóa này không?</div>
+                    <div class="text-secondary">Bạn có chắc muốn xóa vĩnh viễn khu vực này không?</div>
                 </div>
                 <div class="modal-footer">
                     <div class="w-100">
