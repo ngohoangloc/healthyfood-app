@@ -13,6 +13,7 @@ use Livewire\WithPagination;
 class EmployeeComponent extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     public $state = [];
 
     public $showEditModal = false;
@@ -54,7 +55,7 @@ class EmployeeComponent extends Component
     {
         $validatedData = Validator::make($this->state, [
             'fullName'=> 'required|max:50',
-            'phone' => "required|digits:10|unique:users,phone,NULL,id,deleted_at,NULL",
+            'phone' => "required|digits_between:10,11|unique:users,phone,NULL,id,deleted_at,NULL",
             'address' => 'required|max:100',
             'role_id' => 'required',
             'username' => "required|alpha_num|min:5|max:20|unique:accounts,username,NULL,id,deleted_at,NULL",
@@ -95,7 +96,7 @@ class EmployeeComponent extends Component
     {
         $validatedData = Validator::make($this->state, [
             'fullName'=> 'required|max:50',
-            'phone' => "required|digits:10|unique:users,phone,{$this->updateEmployee->id},id,deleted_at,NULL",
+            'phone' => "required|digits_between:10,11|unique:users,phone,{$this->updateEmployee->id},id,deleted_at,NULL",
             'address' => 'required|max:100',
             'role_id' => 'required',
             'username' => "required|alpha_num|min:5|max:20|unique:accounts,username,{$this->updateEmployee->account->id},id,deleted_at,NULL",

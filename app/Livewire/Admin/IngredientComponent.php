@@ -13,6 +13,7 @@ use Livewire\WithPagination;
 class IngredientComponent extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     protected $listeners = [
         'refresh' => '$refresh'
     ];

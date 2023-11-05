@@ -151,17 +151,25 @@ class ItemComponent extends Component
     public function confirmItemRemoval($itemId)
     {
         $this->itemIdBeingRemoved = $itemId;
-
         $this->dispatchBrowserEvent('show-delete-modal');
     }
 
     public function removeItem()
     {
-        $this->itemRepository->delete($this->itemIdBeingRemoved);
+        $item = $this->itemRepository->getById($this->itemIdBeingRemoved);
+        if($item->type === 3 && $item->isIngredientOfItems->count() > 0) {
+            $this->dispatchBrowserEvent('toastr-error', [
+                'message' => 'Hàng hóa đang là nguyên vật liệu của hàng hóa khác!',
+            ]);
+        }
+        else
+        {
+            $this->itemRepository->delete($this->itemIdBeingRemoved);
 
-        $this->dispatchBrowserEvent('hide-delete-modal', [
-            'message' => 'Xóa hàng hóa thành công!',
-        ]);
+            $this->dispatchBrowserEvent('hide-delete-modal', [
+                'message' => 'Xóa hàng hóa thành công!',
+            ]);
+        }
     }
 
     public function clearImage()

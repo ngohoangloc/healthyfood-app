@@ -146,7 +146,7 @@ return [
             'rule-name' => 'custom-message',
         ],
         'phone' => [
-            'digits' => ':Attribute không đúng định dạng.'
+            'digits_between' => ':Attribute không đúng định dạng.'
         ],
         'username' => [
             'alpha_num'=> ':Attribute chỉ bao gồm chữ cái và số.',

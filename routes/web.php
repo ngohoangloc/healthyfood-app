@@ -6,13 +6,16 @@ use App\Http\Controllers\CashierController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\GoodReceivedNoteController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\UnitController;
 use App\Http\Middleware\CheckAdmin;
+use App\Models\Supplier;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,6 +50,7 @@ Route::middleware([CheckAdmin::class])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index']);
 
         Route::prefix('directory')->group(function () {
+            Route::get('/supplier', [SupplierController::class, 'index'])->name('admin.directory.supplier');
             Route::get('/itemCategory', [CategoryController::class, 'index'])->name('admin.directory.category');
             Route::get('/unitOfMeasure', [UnitController::class, 'index'])->name('admin.directory.unit');
             Route::get('/item', [ItemController::class, 'index'])->name('admin.directory.item');
@@ -54,6 +58,10 @@ Route::middleware([CheckAdmin::class])->group(function () {
             Route::get('/area', [AreaController::class, 'index'])->name('admin.directory.area');
             Route::get('/table', [TableController::class, 'index'])->name('admin.directory.table');
             Route::get('/ingredient', [IngredientController::class, 'index'])->name('admin.directory.ingredient');
+        });
+
+        Route::prefix('stock')->group(function () {
+            Route::get('/grn', [GoodReceivedNoteController::class, 'index'])->name('admin.stock.grn');
         });
 
         Route::prefix('sys')->group(function () {

@@ -5,13 +5,13 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <h1 class="page-title">
-                        KHU VỰC
+                        NHÀ CUNG CẤP
                     </h1>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
                         <span class="d-none d-sm-inline">
-                            <a href="#" class="btn btn-dark" wire:click.prevent="addArea">
+                            <a href="#" class="btn btn-dark" wire:click.prevent="addSupplier">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -38,32 +38,32 @@
                                 <thead>
                                     <tr>
                                         <th class="w-8">#</th>
-                                        <th class="w-33">Tên khu vực</th>
-                                        <th>Số bàn</th>
-                                        <th>Trạng thái</th>
+                                        <th class="w-33">Nhà cung cấp</th>
+                                        <th>Địa chỉ</th>
+                                        <th>Số điện thoại</th>
                                         <th class="w-8"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($areas as $area)
+                                    @foreach ($suppliers as $supplier)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
+                                            <td scope="row" class="text-muted">{{ $loop->iteration }}</td>
                                             <td class="text-muted">
-                                                {{ $area->name }}
+                                                {{ $supplier->name }}
                                             </td>
                                             <td class="text-muted">
-                                                {{ $area->tables->count() }}
+                                                {{ $supplier->address }}
                                             </td>
                                             <td class="text-muted">
-                                                <?= $area->active ? '<span class="badge bg-green-lt">Hoạt động</span>' : '<span class="badge bg-red-lt">Không hoạt động</span>'?>
+                                                {{ $supplier->phone }}
                                             </td>
                                             <td style="font-size: 1rem;">
                                                 <a href="" class="text-primary"
-                                                    wire:click.prevent="editArea({{ $area }})">
+                                                    wire:click.prevent="editSupplier({{ $supplier }})">
                                                     <i class="ti ti-edit"></i>
                                                 </a>
                                                 <a href="" class="text-danger"
-                                                    wire:click.prevent="confirmAreaRemoval({{ $area->id }})">
+                                                    wire:click.prevent="confirmSupplierRemoval({{ $supplier->id }})">
                                                     <i class="ti ti-trash"></i>
                                                 </a>
                                             </td>
@@ -74,7 +74,7 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-end mt-2">
-                        {{ $areas->links() }}
+                        {{ $suppliers->links() }}
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -109,17 +109,17 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
                 <form autocomplete="off"
-                    wire:submit.prevent="<?= $showEditModal ? 'updateArea' : 'createArea' ?>">
+                    wire:submit.prevent="<?= $showEditModal ? 'updateSupplier' : 'createSupplier' ?>">
                     <div class="modal-header">
-                        <h5 class="modal-title"><?= $showEditModal ? 'Chỉnh sửa' : 'Thêm' ?> khu vực</h5>
+                        <h5 class="modal-title"><?= $showEditModal ? 'Chỉnh sửa' : 'Thêm' ?> nhà cung cấp</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Tên khu vực</label>
+                            <label class="form-label">Tên nhà cung cấp</label>
                             <input wire:model.defer="state.name" type="text"
-                                class="form-control @error('name') is-invalid @enderror" name="area-name"
-                                placeholder="Tên khu vực mới...">
+                                class="form-control @error('name') is-invalid @enderror" name="supplier-name"
+                                placeholder="Nhập tên nhà cung cấp...">
                             @error('name')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -127,10 +127,26 @@
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label class="form-check">
-                                <input class="form-check-input" type="checkbox" wire:model.defer="state.active">
-                                <span class="form-check-label">Sử dụng</span>
-                              </label>
+                            <label class="form-label">Địa chỉ</label>
+                            <input wire:model.defer="state.address" type="text"
+                                class="form-control @error('address') is-invalid @enderror" name="supplier-address"
+                                placeholder="Nhập địa chỉ...">
+                            @error('address')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input wire:model.defer="state.phone" type="text"
+                                class="form-control @error('phone') is-invalid @enderror" name="supplier-phone"
+                                placeholder="Nhập số điện thoại...">
+                            @error('phone')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
 
@@ -170,8 +186,9 @@
                             <div class="col"><a href="#" class="btn w-100" data-bs-dismiss="modal">
                                     Hủy
                                 </a></div>
-                            <div class="col"><a href="#" class="btn btn-danger w-100"
-                                    data-bs-dismiss="modal" wire:click.prevent="removeArea">
+                            <div class="col">
+                                <a href="#" class="btn btn-danger w-100"
+                                    data-bs-dismiss="modal" wire:click.prevent="removeSupplier">
                                     Xóa
                                 </a>
                             </div>

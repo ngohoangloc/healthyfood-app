@@ -20,6 +20,7 @@ class Item extends Model
         'minInventoryLevel',
         'maxInventoryLevel',
         'type',
+        'stock',
         'active',
         'category_id',
         'unit_id'
@@ -47,5 +48,10 @@ class Item extends Model
     public function ingredientDetails()
     {
         return $this->hasMany(IngredientDetail::class,'processedFood_id', 'id');
+    }
+
+    public function isIngredientOfItems()
+    {
+        return $this->hasMany(IngredientDetail::class,'ingredient_id', 'id');
     }
 }

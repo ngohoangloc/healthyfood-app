@@ -66,7 +66,7 @@
             });
 
             window.addEventListener('toastr-error', event => {
-                toastr.error(event.detail.message, 'Thành công!');
+                toastr.error(event.detail.message);
             });
         });
 

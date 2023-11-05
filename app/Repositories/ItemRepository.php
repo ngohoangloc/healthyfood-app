@@ -29,7 +29,7 @@ class ItemRepository
         }
 
         // Kèm theo các mối quan hệ và phân trang
-        return $query->with('unit', 'category', 'prices', 'costs')->paginate(10);
+        return $query->with('unit', 'category', 'prices', 'costs', 'ingredientDetails')->paginate(10);
     }
 
     public function getProducts($searchInput, $byTypes)
@@ -81,6 +81,7 @@ class ItemRepository
         if($request['type'] == 1)
         {
             $itemId = 'HH' . str_pad((Item::withTrashed()->count() + 1), 4, '0', STR_PAD_LEFT);
+            $request['stock'] = 0;
         }
         if($request['type'] == 2)
         {
@@ -89,6 +90,7 @@ class ItemRepository
         if($request['type'] == 3)
         {
             $itemId = 'NVL' . str_pad((Item::withTrashed()->count() + 1), 3, '0', STR_PAD_LEFT);
+            $request['stock'] = 0;
         }
 
         $request['id'] = $itemId;

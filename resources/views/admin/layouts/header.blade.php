@@ -113,6 +113,9 @@
                                     <a class="dropdown-item" href="{{ route('admin.directory.unit') }}">
                                         Đơn vị tính
                                     </a>
+                                    <a class="dropdown-item" href="{{ route('admin.directory.supplier') }}">
+                                        Nhà cung cấp
+                                    </a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('admin.directory.item') }}">
                                         Hàng hoá
@@ -152,7 +155,7 @@
                         <div class="dropdown-menu">
                             <div class="dropdown-menu-columns">
                                 <div class="dropdown-menu-column">
-                                    <a class="dropdown-item" href="./accordion.html">
+                                    <a class="dropdown-item" href="{{ route('admin.stock.grn') }}">
                                         Phiếu nhập kho
                                     </a>
                                     <a class="dropdown-item" href="./accordion.html">

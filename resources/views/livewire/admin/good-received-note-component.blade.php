@@ -5,13 +5,13 @@
             <div class="row g-2 align-items-center">
                 <div class="col">
                     <h1 class="page-title">
-                        KHU VỰC
+                        PHIẾU NHẬP KHO
                     </h1>
                 </div>
                 <div class="col-auto ms-auto d-print-none">
                     <div class="btn-list">
                         <span class="d-none d-sm-inline">
-                            <a href="#" class="btn btn-dark" wire:click.prevent="addArea">
+                            <a href="#" class="btn btn-dark" wire:click.prevent="addGRN">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round">
@@ -37,44 +37,26 @@
                             <table class="table table-vcenter card-table">
                                 <thead>
                                     <tr>
-                                        <th class="w-8">#</th>
-                                        <th class="w-33">Tên khu vực</th>
-                                        <th>Số bàn</th>
-                                        <th>Trạng thái</th>
+                                        <th class="w-6">#</th>
+                                        <th class="w-8">Số chứng từ</th>
+                                        <th class="w-8">Ngày ghi sổ</th>
+                                        <th class="w-8">Loại</th>
+                                        <th>Nhà cung cấp</th>
+                                        <th class="w-8">Thanh toán</th>
+                                        <th class="w-25">Ghi chú</th>
                                         <th class="w-8"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($areas as $area)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td class="text-muted">
-                                                {{ $area->name }}
-                                            </td>
-                                            <td class="text-muted">
-                                                {{ $area->tables->count() }}
-                                            </td>
-                                            <td class="text-muted">
-                                                <?= $area->active ? '<span class="badge bg-green-lt">Hoạt động</span>' : '<span class="badge bg-red-lt">Không hoạt động</span>'?>
-                                            </td>
-                                            <td style="font-size: 1rem;">
-                                                <a href="" class="text-primary"
-                                                    wire:click.prevent="editArea({{ $area }})">
-                                                    <i class="ti ti-edit"></i>
-                                                </a>
-                                                <a href="" class="text-danger"
-                                                    wire:click.prevent="confirmAreaRemoval({{ $area->id }})">
-                                                    <i class="ti ti-trash"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    @foreach ($grns as $grns)
+                                        <td>{{ $loop->iteration }}</td>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-end mt-2">
-                        {{ $areas->links() }}
+                        {{-- {{ $grns->links() }} --}}
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -104,49 +86,6 @@
         </div>
     </div>
 
-    {{--    Modal   --}}
-    <div class="modal modal-blur fade" id="form" tabindex="-1" role="dialog" aria-hidden="true" wire:ignore.self>
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <form autocomplete="off"
-                    wire:submit.prevent="<?= $showEditModal ? 'updateArea' : 'createArea' ?>">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><?= $showEditModal ? 'Chỉnh sửa' : 'Thêm' ?> khu vực</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Tên khu vực</label>
-                            <input wire:model.defer="state.name" type="text"
-                                class="form-control @error('name') is-invalid @enderror" name="area-name"
-                                placeholder="Tên khu vực mới...">
-                            @error('name')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-check">
-                                <input class="form-check-input" type="checkbox" wire:model.defer="state.active">
-                                <span class="form-check-label">Sử dụng</span>
-                              </label>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Hủy
-                        </a>
-                        <button class="btn btn-primary ms-auto" type="submit">
-                            <?= $showEditModal ? 'Sửa' : 'Thêm' ?>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <div class="modal" id="delete-modal" tabindex="-1">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -171,7 +110,7 @@
                                     Hủy
                                 </a></div>
                             <div class="col"><a href="#" class="btn btn-danger w-100"
-                                    data-bs-dismiss="modal" wire:click.prevent="removeArea">
+                                    data-bs-dismiss="modal" wire:click.prevent="removeGRN">
                                     Xóa
                                 </a>
                             </div>
